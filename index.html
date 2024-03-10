@@ -13,28 +13,39 @@
     <style>
         /* ===== CSS Variables ===== */
         :root {
-            --luminescence: 50%;
+            --lumi: 50%;
             --chroma: 0.185;
             --hue: 180deg;
-            --color: oklch(var(--luminescence) var(--chroma) var(--hue));
+            --color: oklch(var(--lumi) var(--chroma) var(--hue));
 
-            --fg: 90%, 0.01, var(--hue);
-            --bg: 20%, 0.01, var(--hue);
+            --fg: oklch(90%, 0.01, var(--hue));
+            --bg: oklch(15%, 0.01, var(--hue));
         }
 
 
         /* ===== Global styles ===== */
         :root {
-            color: oklch(var(--fg));
-            background-color: oklch(var(--bg));
+            padding: 2rem;
+            color: var(--fg);
+            background-color: var(--bg);
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
 
         :root * {
-            color: oklch(var(--fg));
+            color: var(--fg);
         }
 
-        /* ===== Inputs Layout ===== */
+        section {
+            margin: 1.5rem 0;
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-style: italic;
+        }
+
+        /* ===== Color picker ===== */
         form {
             display: flex;
             align-items: center;
@@ -48,10 +59,6 @@
 
         form .color-sliders>div:not(:first-child) {
             margin-block-start: 1em;
-        }
-
-        label {
-            display: block;
         }
 
         .inputs-group {
@@ -68,16 +75,15 @@
             width: 10%;
         }
 
-
-        /* ===== Inputs Appearance ===== */
         .color-preview {
             width: 20%;
             aspect-ratio: 1 / 1;
-            border-radius: 2rem;
+            border-radius: 1rem;
             background-color: var(--color);
         }
 
         label {
+            display: block;
             font-weight: bold;
             padding-left: 0.5rem;
             margin-bottom: 0.25rem;
@@ -86,54 +92,82 @@
         .inputs-group input[type="number"] {
             border-radius: 1rem;
             padding: 0.25em 1em;
-            border: 1px solid oklch(var(--fg));
+            border: 1px solid var(--fg);
             background: transparent;
             font-weight: bold;
 
+        }
+
+        /* ===== Clipboard ===== */
+
+        .section-clipboard span {
+            margin: 0 1em;
+            padding: 0.5em 1em;
+            border: 1px solid var(--fg);
+            border-radius: 1em;
         }
     </style>
 </head>
 
 <body>
 
-    <form>
-        <div class="color-preview">
+    <section class="section-color-picker">
+        <h2>OKLCH Color Picker </h2>
 
-        </div>
+        <form>
+            <div class="color-preview"></div>
 
-        <div class="color-sliders">
-            <div>
-                <label>Luminescence</label>
-                <div class="inputs-group">
-                    <input id="lSlider" value="50" type="range" min="0" max="100" step="1">
-                    <input id="lField" value="50" type="number" min="0" max="100" step="1">
+            <div class="color-sliders">
+                <div>
+                    <label>Luminescence</label>
+                    <div class="inputs-group">
+                        <input id="lSlider"
+                               value="50"
+                               type="range"
+                               min="0"
+                               max="100"
+                               step="1">
+                        <input id="lField"
+                               value="50"
+                               type="number"
+                               min="0"
+                               max="100"
+                               step="1">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="c">Chroma</label>
+                    <div class="inputs-group">
+                        <input id="cSlider"
+                               oninput="setChroma"
+                               value="0.185"
+                               type="range"
+                               min="0"
+                               max="0.37"
+                               step="0.001">
+                        <input id="cField"
+                               oninput="setChroma"
+                               value="0.185"
+                               type="number"
+                               min="0"
+                               max="0.37"
+                               step="0.001">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="h">Hue</label>
+                    <div class="inputs-group">
+                        <input id="hSlider" value="180" type="range" min="0" max="360" step="1">
+                        <input id="hField" value="180" type="number" min="0" max="360" step="1">
+                    </div>
                 </div>
             </div>
-
-            <div>
-                <label for="c">Chroma</label>
-                <div class="inputs-group">
-                    <input id="cSlider" value="0.185" type="range" min="0" max="0.37" step="0.001">
-                    <input id="cField" value="0.185" type="number" min="0" max="0.37" step="0.001">
-                </div>
-            </div>
-
-            <div>
-                <label for="h">Hue</label>
-                <div class="inputs-group">
-                    <input id="hSlider" value="180" type="range" min="0" max="360" step="1">
-                    <input id="hField" value="180" type="number" min="0" max="360" step="1">
-                </div>
-            </div>
-        </div>
+        </form>
+    </section>
 
 
-    </form>
-
-    <div>
-
-
-    </div>
 
     <script>
         /** @type {HTMLElement} **/
@@ -159,39 +193,45 @@
 
 
         /** Set the luminescence value everywhere
-         * @param {number} l - New luminescence value.
+         * @param {InputEvent} e - input event.
          * */
-        function setLuminescence(l) {
-            root.style.setProperty("--luminescence", l + "%");
+        function setLuminescence(e) {
+            console.log("setLuminescence");
+            const l = e.target.value;
             lSlider.value = l;
             lField.value = l;
+            root.style.setProperty("--lumi", l + "%");
         }
 
         /** Set the chroma value everywhere
-         * @param {number} c - New chroma value.
+         * @param {InputEvent} e - input event.
          * */
-        function setChroma(c) {
-            root.style.setProperty("--chroma", c);
+        function setChroma(e) {
+            console.log("setChroma");
+            const c = e.target.value;
             cSlider.value = c;
             cField.value = c;
+            root.style.setProperty("--chroma", c);
         }
 
         /** Set the hue value everywhere
-         * @param {number} h - New hue value.
+         * @param {InputEvent} e - input event.
          * */
-        function setHue(h) {
-            console.log(h);
-            root.style.setProperty("--hue", h + "deg");
+        function setHue(e) {
+            console.log("setHue");
+            const h = e.target.value;
             hSlider.value = h;
             hField.value = h;
+            root.style.setProperty("--hue", h + "deg");
         }
 
-        lSlider.addEventListener("input", (e) => setLuminescence(e.target.value));
-        cSlider.addEventListener("input", (e) => setChroma(e.target.value));
-        hSlider.addEventListener("input", (e) => setHue(e.target.value));
-        lField.addEventListener("input", (e) => setLuminescence(e.target.value));
-        cField.addEventListener("input", (e) => setChroma(e.target.value));
-        hField.addEventListener("input", (e) => setHue(e.target.value));
+
+        lSlider.addEventListener("input", setLuminescence);
+        cSlider.addEventListener("input", setChroma);
+        hSlider.addEventListener("input", setHue);
+        lField.addEventListener("input", setLuminescence);
+        cField.addEventListener("input", setChroma);
+        hField.addEventListener("input", setHue);
 
     </script>
 </body>
