@@ -103,7 +103,7 @@
             --fg: oklch(90%, 0.01, var(--hue));
             --bg: oklch(20%, 0.01, var(--hue));
             margin: 0 0.5em;
-            padding: 0.5em 1em;
+            padding: 3px;
             border: 1px solid var(--fg);
             border-radius: 1em;
             background: var(--bg);
@@ -113,6 +113,14 @@
 
         .section-clipboard button:hover {
             opacity: 1;
+        }
+
+        .section-clipboard button span {
+            padding: 0.25rem 0.5rem
+        }
+
+        .section-clipboard button span:first-child {
+            border-right: 1px solid var(--fg);
         }
     </style>
 </head>
@@ -191,15 +199,26 @@
 
     <section class="section-clipboard">
         <h2>Copy to Clipboard </h2>
-        <button id="lchCopy" data-copy="" onclick="copyText(event)"></button>
-        <button id="lCopy" data-copy="" onclick="copyText(event)"></button>
-        <button id="cCopy" data-copy="" onclick="copyText(event)"></button>
-        <button id="hCopy" data-copy="" onclick="copyText(event)"></button>
+        <button id="lchCopy" data-copy="" onclick="copyText(this.dataset.copy)">
+            <span><i>CSS</i></span>
+            <span id="lchCopy__display"></span>
+        </button>
+        <button id="lCopy" data-copy="" onclick="copyText(this.dataset.copy)">
+            <span><i>Luminescence</i></span>
+            <span id="lCopy__display"></span>
+        </button>
+        <button id="cCopy" data-copy="" onclick="copyText(this.dataset.copy)">
+            <span><i>Chroma</i></span>
+            <span id="cCopy__display"></span>
+        </button>
+        <button id="hCopy" data-copy="" onclick="copyText(this.dataset.copy)">
+            <span><i>Hue</i></span>
+            <span id="hCopy__display"></span>
+        </button>
     </section>
 
     <section>
         <h2>Color Pallets</h2>
-
     </section>
 
     <script>
@@ -230,15 +249,19 @@
 
         /** @type {HTMLButtonElement} **/
         const lchCopy = document.getElementById("lchCopy");
+        const lchCopyDisplay = document.getElementById("lchCopy__display");
 
         /** @type {HTMLButtonElement} **/
         const lCopy = document.getElementById("lCopy");
+        const lCopyDisplay = document.getElementById("lCopy__display");
 
         /** @type {HTMLButtonElement} **/
         const cCopy = document.getElementById("cCopy");
+        const cCopyDisplay = document.getElementById("cCopy__display");
 
         /** @type {HTMLButtonElement} **/
         const hCopy = document.getElementById("hCopy");
+        const hCopyDisplay = document.getElementById("hCopy__display");
 
         /** Set the luminescence value everywhere
          * @param {InputEvent} e - input event.
@@ -277,19 +300,22 @@
          * @param {InputEvent} e - input event.
          * */
         function updateClipboard() {
-            lCopy.innerText = l + "%";
-            cCopy.innerText = c;
-            hCopy.innerText = h + "deg";
-            lchCopy.innerText = `oklch(${l}%, ${c}, ${h}deg)`;
-            updateClipboard();
+            cCopy.dat;
+            lCopy.dataset.copy = l + "%";
+            cCopy.dataset.copy = c;
+            hCopy.dataset.copy = h + "deg";
+            lchCopy.dataset.copy = `oklch(${l}%, ${c}, ${h}deg)`;
+            lCopyDisplay.innerText = l + "%";
+            cCopyDisplay.innerText = c;
+            hCopyDisplay.innerText = h + "deg";
+            lchCopyDisplay.innerText = `oklch(${l}%, ${c}, ${h}deg)`;
         }
 
         /** Copy text to keyboard
-         * @param {ClickEvent} e - click event.
+         * @param {string} txt - text to cioy to keyboard
          * */
-        function copyText(e) {
-            const text = e.target.innerText;
-            navigator.clipboard.writeText(text);
+        function copyText(txt) {
+            navigator.clipboard.writeText(txt);
         }
 
         updateClipboard()
