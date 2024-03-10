@@ -14,19 +14,24 @@
         /* ===== CSS Variables ===== */
         :root {
             --luminescence: 50%;
-            --chroma: 0.15;
-            --hue: 150deg;
+            --chroma: 0.185;
+            --hue: 180deg;
             --color: oklch(var(--luminescence) var(--chroma) var(--hue));
 
-            --fg: oklch(100%, 0.0, 0deg);
-            --bg: black;
+            --fg: 90%, 0.01, var(--hue);
+            --bg: 20%, 0.01, var(--hue);
         }
+
 
         /* ===== Global styles ===== */
         :root {
-            color: var(--fg);
-            background-color: var(--bg);
+            color: oklch(var(--fg));
+            background-color: oklch(var(--bg));
             font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        :root * {
+            color: oklch(var(--fg));
         }
 
         /* ===== Inputs Layout ===== */
@@ -41,131 +46,50 @@
             flex-grow: 2;
         }
 
-        form .color-sliders div:not(:first-child) {
+        form .color-sliders>div:not(:first-child) {
             margin-block-start: 1em;
         }
 
-        label,
-        input {
+        label {
             display: block;
         }
 
-        label {
-            font-weight: bold;
+        .inputs-group {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 1rem;
+        }
+
+        .inputs-group input[type="range"] {
+            width: 90%;
+        }
+
+        .inputs-group input[type="number"] {
+            width: 10%;
         }
 
 
-        #color-preview {
+        /* ===== Inputs Appearance ===== */
+        .color-preview {
             width: 20%;
             aspect-ratio: 1 / 1;
             border-radius: 2rem;
             background-color: var(--color);
         }
 
-        input[type="range"]#l {
-            background-image: linear-gradient(in oklab to right,
-                    oklch(00%, 0.37, var(--hue)),
-                    oklch(05%, 0.37, var(--hue)),
-                    oklch(10%, 0.37, var(--hue)),
-                    oklch(15%, 0.37, var(--hue)),
-                    oklch(20%, 0.37, var(--hue)),
-                    oklch(25%, 0.37, var(--hue)),
-                    oklch(30%, 0.37, var(--hue)),
-                    oklch(35%, 0.37, var(--hue)),
-                    oklch(45%, 0.37, var(--hue)),
-                    oklch(55%, 0.37, var(--hue)),
-                    oklch(65%, 0.37, var(--hue)),
-                    oklch(70%, 0.37, var(--hue)),
-                    oklch(75%, 0.37, var(--hue)),
-                    oklch(80%, 0.37, var(--hue)),
-                    oklch(85%, 0.37, var(--hue)),
-                    oklch(90%, 0.37, var(--hue)),
-                    oklch(95%, 0.37, var(--hue)),
-                    oklch(100%, 0.37, var(--hue)));
+        label {
+            font-weight: bold;
+            padding-left: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
+        .inputs-group input[type="number"] {
+            border-radius: 1rem;
+            padding: 0.25em 1em;
+            border: 1px solid oklch(var(--fg));
+            background: transparent;
+            font-weight: bold;
 
-        input[type="range"]#c {
-            background-image: linear-gradient(in oklab to right,
-                    oklch(75%, 0.0, var(--hue)),
-                    oklch(75%, 0.01, var(--hue)),
-                    oklch(75%, 0.02, var(--hue)),
-                    oklch(75%, 0.03, var(--hue)),
-                    oklch(75%, 0.04, var(--hue)),
-                    oklch(75%, 0.05, var(--hue)),
-                    oklch(75%, 0.06, var(--hue)),
-                    oklch(75%, 0.07, var(--hue)),
-                    oklch(75%, 0.08, var(--hue)),
-                    oklch(75%, 0.09, var(--hue)),
-                    oklch(75%, 0.10, var(--hue)),
-                    oklch(75%, 0.11, var(--hue)),
-                    oklch(75%, 0.12, var(--hue)),
-                    oklch(75%, 0.13, var(--hue)),
-                    oklch(75%, 0.14, var(--hue)),
-                    oklch(75%, 0.15, var(--hue)),
-                    oklch(75%, 0.16, var(--hue)),
-                    oklch(75%, 0.17, var(--hue)),
-                    oklch(75%, 0.18, var(--hue)),
-                    oklch(75%, 0.19, var(--hue)),
-                    oklch(75%, 0.20, var(--hue)),
-                    oklch(75%, 0.21, var(--hue)),
-                    oklch(75%, 0.22, var(--hue)),
-                    oklch(75%, 0.23, var(--hue)),
-                    oklch(75%, 0.24, var(--hue)),
-                    oklch(75%, 0.25, var(--hue)),
-                    oklch(75%, 0.26, var(--hue)),
-                    oklch(75%, 0.27, var(--hue)),
-                    oklch(75%, 0.28, var(--hue)),
-                    oklch(75%, 0.29, var(--hue)),
-                    oklch(75%, 0.30, var(--hue)),
-                    oklch(75%, 0.31, var(--hue)),
-                    oklch(75%, 0.32, var(--hue)),
-                    oklch(75%, 0.33, var(--hue)),
-                    oklch(75%, 0.34, var(--hue)),
-                    oklch(75%, 0.35, var(--hue)),
-                    oklch(75%, 0.36, var(--hue)),
-                    oklch(75%, 0.37, var(--hue)));
-        }
-
-        input[type="range"]#h {
-            background-image: linear-gradient(in oklab to right,
-                    oklch(75%, 0.37, 0deg),
-                    oklch(75%, 0.37, 10deg),
-                    oklch(75%, 0.37, 20deg),
-                    oklch(75%, 0.37, 30deg),
-                    oklch(75%, 0.37, 40deg),
-                    oklch(75%, 0.37, 50deg),
-                    oklch(75%, 0.37, 60deg),
-                    oklch(75%, 0.37, 70deg),
-                    oklch(75%, 0.37, 80deg),
-                    oklch(75%, 0.37, 90deg),
-                    oklch(75%, 0.37, 100deg),
-                    oklch(75%, 0.37, 110deg),
-                    oklch(75%, 0.37, 120deg),
-                    oklch(75%, 0.37, 130deg),
-                    oklch(75%, 0.37, 140deg),
-                    oklch(75%, 0.37, 150deg),
-                    oklch(75%, 0.37, 160deg),
-                    oklch(75%, 0.37, 170deg),
-                    oklch(75%, 0.37, 180deg),
-                    oklch(75%, 0.37, 190deg),
-                    oklch(75%, 0.37, 200deg),
-                    oklch(75%, 0.37, 210deg),
-                    oklch(75%, 0.37, 220deg),
-                    oklch(75%, 0.37, 230deg),
-                    oklch(75%, 0.37, 240deg),
-                    oklch(75%, 0.37, 250deg),
-                    oklch(75%, 0.37, 260deg),
-                    oklch(75%, 0.37, 270deg),
-                    oklch(75%, 0.37, 280deg),
-                    oklch(75%, 0.37, 290deg),
-                    oklch(75%, 0.37, 300deg),
-                    oklch(75%, 0.37, 310deg),
-                    oklch(75%, 0.37, 320deg),
-                    oklch(75%, 0.37, 330deg),
-                    oklch(75%, 0.37, 340deg),
-                    oklch(75%, 0.37, 350deg),
-                    oklch(75%, 0.37, 360deg));
         }
     </style>
 </head>
@@ -173,26 +97,36 @@
 <body>
 
     <form>
-        <div id="color-preview">
+        <div class="color-preview">
 
         </div>
 
         <div class="color-sliders">
             <div>
-                <label for="l">Luminescence</label>
-                <input id="l" type="range" min="0" max="100" step="0.001">
+                <label>Luminescence</label>
+                <div class="inputs-group">
+                    <input id="lSlider" value="50" type="range" min="0" max="100" step="1">
+                    <input id="lField" value="50" type="number" min="0" max="100" step="1">
+                </div>
             </div>
 
             <div>
                 <label for="c">Chroma</label>
-                <input id="c" type="range" min="0" max="0.37" step="0.001">
+                <div class="inputs-group">
+                    <input id="cSlider" value="0.185" type="range" min="0" max="0.37" step="0.001">
+                    <input id="cField" value="0.185" type="number" min="0" max="0.37" step="0.001">
+                </div>
             </div>
 
             <div>
                 <label for="h">Hue</label>
-                <input id="h" type="range" min="0" max="360" step="0.001">
+                <div class="inputs-group">
+                    <input id="hSlider" value="180" type="range" min="0" max="360" step="1">
+                    <input id="hField" value="180" type="number" min="0" max="360" step="1">
+                </div>
             </div>
         </div>
+
 
     </form>
 
@@ -206,22 +140,59 @@
         var root = document.querySelector(':root');
 
         /** @type {HTMLInputElement} **/
-        const lSlider = document.getElementById("l");
-        lSlider.addEventListener("input", () => {
-            root.style.setProperty("--luminescence", lSlider.value + "%");
-        });
+        const lSlider = document.getElementById("lSlider");
 
         /** @type {HTMLInputElement} **/
-        const cSlider = document.getElementById("c");
-        cSlider.addEventListener("input", () => {
-            root.style.setProperty("--chroma", cSlider.value);
-        });
+        const cSlider = document.getElementById("cSlider");
 
         /** @type {HTMLInputElement} **/
-        const hSlider = document.getElementById("h");
-        hSlider.addEventListener("input", () => {
-            root.style.setProperty("--hue", hSlider.value + "deg");
-        });
+        const hSlider = document.getElementById("hSlider");
+
+        /** @type {HTMLInputElement} **/
+        const lField = document.getElementById("lField");
+
+        /** @type {HTMLInputElement} **/
+        const cField = document.getElementById("cField");
+
+        /** @type {HTMLInputElement} **/
+        const hField = document.getElementById("hField");
+
+
+        /** Set the luminescence value everywhere
+         * @param {number} l - New luminescence value.
+         * */
+        function setLuminescence(l) {
+            root.style.setProperty("--luminescence", l + "%");
+            lSlider.value = l;
+            lField.value = l;
+        }
+
+        /** Set the chroma value everywhere
+         * @param {number} c - New chroma value.
+         * */
+        function setChroma(c) {
+            root.style.setProperty("--chroma", c);
+            cSlider.value = c;
+            cField.value = c;
+        }
+
+        /** Set the hue value everywhere
+         * @param {number} h - New hue value.
+         * */
+        function setHue(h) {
+            console.log(h);
+            root.style.setProperty("--hue", h + "deg");
+            hSlider.value = h;
+            hField.value = h;
+        }
+
+        lSlider.addEventListener("input", (e) => setLuminescence(e.target.value));
+        cSlider.addEventListener("input", (e) => setChroma(e.target.value));
+        hSlider.addEventListener("input", (e) => setHue(e.target.value));
+        lField.addEventListener("input", (e) => setLuminescence(e.target.value));
+        cField.addEventListener("input", (e) => setChroma(e.target.value));
+        hField.addEventListener("input", (e) => setHue(e.target.value));
+
     </script>
 </body>
 
