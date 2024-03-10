@@ -45,6 +45,7 @@
             font-style: italic;
         }
 
+
         /* ===== Color picker ===== */
         form {
             display: flex;
@@ -73,6 +74,11 @@
 
         .inputs-group input[type="number"] {
             width: 10%;
+            padding: 0.25em 1em;
+            border-radius: 1rem;
+            border: 1px solid var(--fg);
+            font-weight: bold;
+            background-color: oklch(25%, 0.02, var(--hue));
         }
 
         .color-preview {
@@ -89,22 +95,24 @@
             margin-bottom: 0.25rem;
         }
 
-        .inputs-group input[type="number"] {
-            border-radius: 1rem;
-            padding: 0.25em 1em;
-            border: 1px solid var(--fg);
-            background: transparent;
-            font-weight: bold;
 
-        }
 
         /* ===== Clipboard ===== */
 
-        .section-clipboard span {
-            margin: 0 1em;
+        .section-clipboard button {
+            --fg: oklch(90%, 0.01, var(--hue));
+            --bg: oklch(20%, 0.01, var(--hue));
+            margin: 0 0.5em;
             padding: 0.5em 1em;
             border: 1px solid var(--fg);
             border-radius: 1em;
+            background: var(--bg);
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .section-clipboard button:hover {
+            opacity: 1;
         }
     </style>
 </head>
@@ -122,12 +130,14 @@
                     <label>Luminescence</label>
                     <div class="inputs-group">
                         <input id="lSlider"
+                               oninput="setLuminescence(event)"
                                value="50"
                                type="range"
                                min="0"
                                max="100"
                                step="1">
                         <input id="lField"
+                               oninput="setLuminescence(event)"
                                value="50"
                                type="number"
                                min="0"
@@ -140,14 +150,14 @@
                     <label for="c">Chroma</label>
                     <div class="inputs-group">
                         <input id="cSlider"
-                               oninput="setChroma"
+                               oninput="setChroma(event)"
                                value="0.185"
                                type="range"
                                min="0"
                                max="0.37"
                                step="0.001">
                         <input id="cField"
-                               oninput="setChroma"
+                               oninput="setChroma(event)"
                                value="0.185"
                                type="number"
                                min="0"
@@ -159,17 +169,44 @@
                 <div>
                     <label for="h">Hue</label>
                     <div class="inputs-group">
-                        <input id="hSlider" value="180" type="range" min="0" max="360" step="1">
-                        <input id="hField" value="180" type="number" min="0" max="360" step="1">
+                        <input id="hSlider"
+                               oninput="setHue(event)"
+                               value="180"
+                               type="range"
+                               min="0"
+                               max="360"
+                               step="1">
+                        <input id="hField"
+                               oninput="setHue(event)"
+                               value="180"
+                               type="number"
+                               min="0"
+                               max="360"
+                               step="1">
                     </div>
                 </div>
             </div>
         </form>
     </section>
 
+    <section class="section-clipboard">
+        <h2>Copy to Clipboard </h2>
+        <button id="lchCopy" data-copy="" onclick="copyText(event)"></button>
+        <button id="lCopy" data-copy="" onclick="copyText(event)"></button>
+        <button id="cCopy" data-copy="" onclick="copyText(event)"></button>
+        <button id="hCopy" data-copy="" onclick="copyText(event)"></button>
+    </section>
 
+    <section>
+        <h2>Color Pallets</h2>
+
+    </section>
 
     <script>
+        let l = 50;
+        let c = 0.185;
+        let h = 180;
+
         /** @type {HTMLElement} **/
         var root = document.querySelector(':root');
 
@@ -191,47 +228,71 @@
         /** @type {HTMLInputElement} **/
         const hField = document.getElementById("hField");
 
+        /** @type {HTMLButtonElement} **/
+        const lchCopy = document.getElementById("lchCopy");
+
+        /** @type {HTMLButtonElement} **/
+        const lCopy = document.getElementById("lCopy");
+
+        /** @type {HTMLButtonElement} **/
+        const cCopy = document.getElementById("cCopy");
+
+        /** @type {HTMLButtonElement} **/
+        const hCopy = document.getElementById("hCopy");
 
         /** Set the luminescence value everywhere
          * @param {InputEvent} e - input event.
          * */
         function setLuminescence(e) {
-            console.log("setLuminescence");
-            const l = e.target.value;
+            l = e.target.value;
             lSlider.value = l;
             lField.value = l;
             root.style.setProperty("--lumi", l + "%");
+            updateClipboard();
         }
 
         /** Set the chroma value everywhere
          * @param {InputEvent} e - input event.
          * */
         function setChroma(e) {
-            console.log("setChroma");
-            const c = e.target.value;
+            c = e.target.value;
             cSlider.value = c;
             cField.value = c;
             root.style.setProperty("--chroma", c);
+            updateClipboard();
         }
 
         /** Set the hue value everywhere
          * @param {InputEvent} e - input event.
          * */
         function setHue(e) {
-            console.log("setHue");
-            const h = e.target.value;
+            h = e.target.value;
             hSlider.value = h;
             hField.value = h;
             root.style.setProperty("--hue", h + "deg");
+            updateClipboard();
         }
 
+        /** Set the hue value everywhere
+         * @param {InputEvent} e - input event.
+         * */
+        function updateClipboard() {
+            lCopy.innerText = l + "%";
+            cCopy.innerText = c;
+            hCopy.innerText = h + "deg";
+            lchCopy.innerText = `oklch(${l}%, ${c}, ${h}deg)`;
+            updateClipboard();
+        }
 
-        lSlider.addEventListener("input", setLuminescence);
-        cSlider.addEventListener("input", setChroma);
-        hSlider.addEventListener("input", setHue);
-        lField.addEventListener("input", setLuminescence);
-        cField.addEventListener("input", setChroma);
-        hField.addEventListener("input", setHue);
+        /** Copy text to keyboard
+         * @param {ClickEvent} e - click event.
+         * */
+        function copyText(e) {
+            const text = e.target.innerText;
+            navigator.clipboard.writeText(text);
+        }
+
+        updateClipboard()
 
     </script>
 </body>
