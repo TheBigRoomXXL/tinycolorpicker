@@ -67,10 +67,6 @@ input[type="range"]::-moz-range-thumb {
     cursor: pointer;
 }
 
-input[type="range"]:focus {
-    outline: 2px solid oklch(75% 0.25 var(--hue));
-}
-
 
 /*  Gradient specific to each slider */
 
