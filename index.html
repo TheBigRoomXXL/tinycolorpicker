@@ -86,18 +86,16 @@
 
 
         /* Remove arrow from input */
-
-        /* Chrome, Safari, Edge, Opera */
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
 
-        /* Firefox */
         input[type=number] {
             -moz-appearance: textfield;
         }
+
 
         .color-preview {
             width: 14rem;
@@ -137,6 +135,7 @@
         .section-clipboard button:hover {
             opacity: 1;
         }
+
 
         .section-clipboard button span {
             padding: 0.25rem 0.5rem
@@ -223,19 +222,19 @@
         </form>
         <section class="section-clipboard">
             <label>Copy to clipboard: </label>
-            <button id="lchCopy" data-copy="" onclick="copyTextFromBtn(this)">
+            <button id="lchCopy" data-copy="" onclick="copyTextFromBtn(this, event)">
                 <span><i>CSS</i></span>
                 <span id="lchCopy__display"></span>
             </button>
-            <button id="lCopy" data-copy="" onclick="copyTextFromBtn(this)">
+            <button id="lCopy" data-copy="" onclick="copyTextFromBtn(this, event)">
                 <span><i>Luminescence</i></span>
                 <span id="lCopy__display"></span>
             </button>
-            <button id="cCopy" data-copy="" onclick="copyTextFromBtn(this)">
+            <button id="cCopy" data-copy="" onclick="copyTextFromBtn(this, event)">
                 <span><i>Chroma</i></span>
                 <span id="cCopy__display"></span>
             </button>
-            <button id="hCopy" data-copy="" onclick="copyTextFromBtn(this)">
+            <button id="hCopy" data-copy="" onclick="copyTextFromBtn(this, event)">
                 <span><i>Hue</i></span>
                 <span id="hCopy__display"></span>
             </button>
@@ -317,9 +316,13 @@
         }
 
 
-        function copyTextFromBtn(btn) {
+        function copyTextFromBtn(btn, event) {
             navigator.clipboard.writeText(btn.dataset.copy);
-            btn.blur();
+
+            // If it's a click, unfocus. If it's a keyboard action, stay focused
+            if (event.detail > 0) {
+                btn.blur();
+            }
         }
 
         updateClipboard()
