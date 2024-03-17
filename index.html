@@ -19,9 +19,18 @@
             --color: oklch(var(--lumi) var(--chroma) var(--hue));
 
             --fg: oklch(90%, 0.01, var(--hue));
-            --bg: oklch(15%, 0.01, var(--hue));
+            --bg: oklch(15%, 0.015, var(--hue));
+            --bg-card: oklch(40% 0.01 var(--hue) / 0.25);
 
             font-size: min(calc(0.5rem + 0.5vw), 14px);
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --fg: oklch(35%, 0.01, var(--hue));
+                --bg: oklch(95%, 0.015, var(--hue));
+                --bg-card: oklch(75% 0.01 var(--hue) / 0.25);
+            }
         }
 
 
@@ -80,7 +89,7 @@
             border-radius: 1rem;
             border: 1px solid var(--fg);
             font-weight: bold;
-            background-color: oklch(25%, 0.02, var(--hue));
+            background-color: oklch(from var(--bg) l c h)
         }
 
 
@@ -123,16 +132,14 @@
         }
 
         .clipboard-section button {
-            --fg: oklch(90%, 0.01, var(--hue));
-            --bg: oklch(20%, 0.01, var(--hue));
             margin: 0.5em;
             padding: 3px;
             border: 1px solid var(--fg);
             border-radius: 1em;
-            background: var(--bg);
-            opacity: 0.8;
+            opacity: 0.85;
             cursor: pointer;
             font-size: 1em;
+            background: var(--bg)
         }
 
         .clipboard-section button:hover {
@@ -142,7 +149,6 @@
         .clipboard-section button:active {
             background: oklch(from var(--color) l c h / 25%);
         }
-
 
         .clipboard-section button span {
             padding: 0.25rem 0.5rem
@@ -215,10 +221,12 @@
         /* ====== Cosmetic ====== */
 
         .card {
-            background: oklch(40% 0.01 var(--hue) / 0.25);
+            background: var(--bg-card);
             padding: 2rem;
             border-radius: 1rem;
         }
+
+        button {}
     </style>
 </head>
 
