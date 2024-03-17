@@ -121,11 +121,11 @@
 
         /* ===== Clipboard ===== */
 
-        .section-clipboard label {
+        .clipboard-section label {
             display: inline;
         }
 
-        .section-clipboard button {
+        .clipboard-section button {
             --fg: oklch(90%, 0.01, var(--hue));
             --bg: oklch(20%, 0.01, var(--hue));
             margin: 0.5em;
@@ -138,16 +138,16 @@
             font-size: 1em;
         }
 
-        .section-clipboard button:hover {
+        .clipboard-section button:hover {
             opacity: 1;
         }
 
 
-        .section-clipboard button span {
+        .clipboard-section button span {
             padding: 0.25rem 0.5rem
         }
 
-        .section-clipboard button span:first-child {
+        .clipboard-section button span:first-child {
             border-right: 1px solid var(--fg);
         }
 
@@ -181,7 +181,7 @@
 
 <body>
 
-    <section class="section-color-picker">
+    <section class="color-picker-section">
         <h2>OKLCH Color Picker </h2>
 
         <form>
@@ -252,7 +252,7 @@
                 </div>
             </div>
         </form>
-        <section class="section-clipboard">
+        <section class="clipboard-section">
             <label>Copy to clipboard: </label>
             <button id="lchCopy" data-copy="" onclick="copyTextFromBtn(this, event)">
                 <span><i>CSS</i></span>
@@ -275,8 +275,11 @@
 
 
 
-    <section class="section-palette">
+    <section class="pallets-section">
         <h2>Color Pallets</h2>
+        <div class="pallets-grid">
+
+        </div>
         <div>
             <div class="color-block monochrome-1"></div>
             <div class="color-block monochrome-2"></div>
