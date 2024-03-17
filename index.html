@@ -150,12 +150,14 @@
         }
 
         /* ====== Pallets =========== */
+        /* cw:  rotating clockwise */
+        /* ccw: rotating counter clockwise */
 
         .pallets-grid {
             display: grid;
             gap: 1rem;
-            grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-
+            /* grid-template-columns: auto-fit, minmax(12rem, 1fr)); */
+            grid-template-columns: repeat(3, 1fr)
         }
 
         .pallet .color-block {
@@ -183,11 +185,52 @@
         }
 
         .monochromatic {
-            --color-1: oklch(from var(--color) calc(l/3 + 0.00) c h);
-            --color-2: oklch(from var(--color) calc(l/3 + 0.14) c h);
-            --color-3: oklch(from var(--color) calc(l/3 + 0.28) c h);
-            --color-4: oklch(from var(--color) calc(l/3 + 0.42) c h);
-            --color-5: oklch(from var(--color) calc(l/3 + 0.56) c h);
+            --color-1: oklch(from var(--color) calc(l/4 + 0.60) c h);
+            --color-2: oklch(from var(--color) calc(l/4 + 0.45) c h);
+            --color-3: oklch(from var(--color) calc(l/4 + 0.30) c h);
+            --color-4: oklch(from var(--color) calc(l/4 + 0.15) c h);
+            --color-5: oklch(from var(--color) calc(l/4 + 0.00) c h);
+        }
+
+        .monochromatic-cw {
+            --color-1: oklch(from var(--color) calc(l/4 + 0.60) c calc(h + 00));
+            --color-2: oklch(from var(--color) calc(l/4 + 0.45) c calc(h + 10));
+            --color-3: oklch(from var(--color) calc(l/4 + 0.30) c calc(h + 20));
+            --color-4: oklch(from var(--color) calc(l/4 + 0.15) c calc(h + 30));
+            --color-5: oklch(from var(--color) calc(l/4 + 0.00) c calc(h + 40));
+        }
+
+        .monochromatic-ccw {
+            --color-1: oklch(from var(--color) calc(l/4 + 0.60) c calc(h - 00));
+            --color-2: oklch(from var(--color) calc(l/4 + 0.45) c calc(h - 10));
+            --color-3: oklch(from var(--color) calc(l/4 + 0.30) c calc(h - 20));
+            --color-4: oklch(from var(--color) calc(l/4 + 0.15) c calc(h - 30));
+            --color-5: oklch(from var(--color) calc(l/4 + 0.00) c calc(h - 40));
+        }
+
+        .bichromatic {
+            --color-1: oklch(from var(--color) l c h);
+            --color-2: oklch(from var(--color) calc(l * 0.75) c h);
+            --color-3: oklch(from var(--color) calc(l * 0.30) c h);
+            --color-4: oklch(from var(--color) calc(l * 0.75) c calc(h + 180));
+            --color-5: oklch(from var(--color) calc(l * 0.30) c calc(h + 180));
+        }
+
+        .bichromatic-cw {
+            --color-1: oklch(from var(--color) calc(l * 1.00) c calc(h + 000));
+            --color-2: oklch(from var(--color) calc(l * 0.75) c calc(h + 010));
+            --color-3: oklch(from var(--color) calc(l * 0.30) c calc(h + 020));
+            --color-4: oklch(from var(--color) calc(l * 0.75) c calc(h + 60));
+            --color-5: oklch(from var(--color) calc(l * 0.30) c calc(h + 60));
+        }
+
+
+        .bichromatic-ccw {
+            --color-1: oklch(from var(--color) calc(l * 1.00) c calc(h - 000));
+            --color-2: oklch(from var(--color) calc(l * 0.75) c calc(h - 010));
+            --color-3: oklch(from var(--color) calc(l * 0.30) c calc(h - 020));
+            --color-4: oklch(from var(--color) calc(l * 0.75) c calc(h - 60));
+            --color-5: oklch(from var(--color) calc(l * 0.30) c calc(h - 60));
         }
     </style>
 </head>
@@ -292,6 +335,14 @@
         <h2>Color Pallets</h2>
         <div class="pallets-grid">
 
+            <div class="pallet monochromatic-ccw">
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+            </div>
+
             <div class="pallet monochromatic">
                 <div class="color-block"></div>
                 <div class="color-block"></div>
@@ -300,7 +351,37 @@
                 <div class="color-block"></div>
             </div>
 
+            <div class="pallet monochromatic-cw">
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+            </div>
 
+            <div class="pallet bichromatic-ccw">
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+            </div>
+
+            <div class="pallet bichromatic">
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+            </div>
+
+            <div class="pallet bichromatic-cw">
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+            </div>
         </div>
 
     </section>
