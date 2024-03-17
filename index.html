@@ -142,6 +142,10 @@
             opacity: 1;
         }
 
+        .clipboard-section button:active {
+            background: oklch(from var(--color) l c h / 25%);
+        }
+
 
         .clipboard-section button span {
             padding: 0.25rem 0.5rem
@@ -254,19 +258,19 @@
         </form>
         <section class="clipboard-section">
             <label>Copy to clipboard: </label>
-            <button id="lchCopy" data-copy="" onclick="copyTextFromBtn(this, event)">
+            <button id="lchCopy" data-copy="" onclick="copyTextFromBtn(this)">
                 <span><i>CSS</i></span>
                 <span id="lchCopy__display"></span>
             </button>
-            <button id="lCopy" data-copy="" onclick="copyTextFromBtn(this, event)">
+            <button id="lCopy" data-copy="" onclick="copyTextFromBtn(this)">
                 <span><i>Luminescence</i></span>
                 <span id="lCopy__display"></span>
             </button>
-            <button id="cCopy" data-copy="" onclick="copyTextFromBtn(this, event)">
+            <button id="cCopy" data-copy="" onclick="copyTextFromBtn(this)">
                 <span><i>Chroma</i></span>
                 <span id="cCopy__display"></span>
             </button>
-            <button id="hCopy" data-copy="" onclick="copyTextFromBtn(this, event)">
+            <button id="hCopy" data-copy="" onclick="copyTextFromBtn(this)">
                 <span><i>Hue</i></span>
                 <span id="hCopy__display"></span>
             </button>
@@ -358,11 +362,6 @@
 
             function copyTextFromBtn(btn, event) {
                 navigator.clipboard.writeText(btn.dataset.copy);
-
-                // If it's a click, unfocus. If it's a keyboard action, stay focused
-                if (event.detail > 0) {
-                    btn.blur();
-                }
             }
 
             updateClipboard()
