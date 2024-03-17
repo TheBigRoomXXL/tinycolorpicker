@@ -21,12 +21,6 @@
             --fg: oklch(90%, 0.01, var(--hue));
             --bg: oklch(15%, 0.01, var(--hue));
 
-            --monochrome-1: oklch(20%, 0.25, var(--hue));
-            --monochrome-2: oklch(35%, 0.25, var(--hue));
-            --monochrome-3: oklch(50%, 0.25, var(--hue));
-            --monochrome-4: oklch(65%, 0.25, var(--hue));
-            --monochrome-5: oklch(80%, 0.25, var(--hue));
-
             font-size: min(calc(0.5rem + 0.5vw), 14px);
         }
 
@@ -157,28 +151,43 @@
 
         /* ====== Pallets =========== */
 
-        .color-block {
+        .pallets-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+
+        }
+
+        .pallet .color-block {
             height: 4rem;
         }
 
-        .monochrome-1 {
-            background: var(--monochrome-1);
+        .pallet .color-block:nth-child(1) {
+            background: var(--color-1);
         }
 
-        .monochrome-2 {
-            background: var(--monochrome-2);
+        .pallet .color-block:nth-child(2) {
+            background: var(--color-2);
         }
 
-        .monochrome-3 {
-            background: var(--monochrome-3);
+        .pallet .color-block:nth-child(3) {
+            background: var(--color-3);
         }
 
-        .monochrome-4 {
-            background: var(--monochrome-4);
+        .pallet .color-block:nth-child(4) {
+            background: var(--color-4);
         }
 
-        .monochrome-5 {
-            background: var(--monochrome-5);
+        .pallet .color-block:nth-child(5) {
+            background: var(--color-5);
+        }
+
+        .monochromatic {
+            --color-1: oklch(from var(--color) calc(l/3 + 0.00) c h);
+            --color-2: oklch(from var(--color) calc(l/3 + 0.14) c h);
+            --color-3: oklch(from var(--color) calc(l/3 + 0.28) c h);
+            --color-4: oklch(from var(--color) calc(l/3 + 0.42) c h);
+            --color-5: oklch(from var(--color) calc(l/3 + 0.56) c h);
         }
     </style>
 </head>
@@ -283,90 +292,96 @@
         <h2>Color Pallets</h2>
         <div class="pallets-grid">
 
+            <div class="pallet monochromatic">
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+                <div class="color-block"></div>
+            </div>
+
+
         </div>
-        <div>
-            <div class="color-block monochrome-1"></div>
-            <div class="color-block monochrome-2"></div>
-            <div class="color-block monochrome-3"></div>
-            <div class="color-block monochrome-4"></div>
-            <div class="color-block monochrome-5"></div>
-        </div>
-        <script>
-            let l = 50;
-            let c = 0.19;
-            let h = 180;
 
-            var root = document.querySelector(':root');
-
-            const lSlider = document.getElementById("lSlider");
-            const cSlider = document.getElementById("cSlider");
-            const hSlider = document.getElementById("hSlider");
-
-            const lField = document.getElementById("lField");
-            const cField = document.getElementById("cField");
-            const hField = document.getElementById("hField");
-
-            const lchCopy = document.getElementById("lchCopy");
-            const lchCopyDisplay = document.getElementById("lchCopy__display");
-
-            const lCopy = document.getElementById("lCopy");
-            const lCopyDisplay = document.getElementById("lCopy__display");
-
-            const cCopy = document.getElementById("cCopy");
-            const cCopyDisplay = document.getElementById("cCopy__display");
-
-            const hCopy = document.getElementById("hCopy");
-            const hCopyDisplay = document.getElementById("hCopy__display");
+    </section>
 
 
-            function setLuminescence(luminescence) {
-                console.log(luminescence);
-                l = luminescence;
-                lSlider.value = l;
-                lField.value = l;
-                root.style.setProperty("--lumi", l + "%");
-                updateClipboard();
-            }
+    <script>
+        let l = 50;
+        let c = 0.19;
+        let h = 180;
+
+        var root = document.querySelector(':root');
+
+        const lSlider = document.getElementById("lSlider");
+        const cSlider = document.getElementById("cSlider");
+        const hSlider = document.getElementById("hSlider");
+
+        const lField = document.getElementById("lField");
+        const cField = document.getElementById("cField");
+        const hField = document.getElementById("hField");
+
+        const lchCopy = document.getElementById("lchCopy");
+        const lchCopyDisplay = document.getElementById("lchCopy__display");
+
+        const lCopy = document.getElementById("lCopy");
+        const lCopyDisplay = document.getElementById("lCopy__display");
+
+        const cCopy = document.getElementById("cCopy");
+        const cCopyDisplay = document.getElementById("cCopy__display");
+
+        const hCopy = document.getElementById("hCopy");
+        const hCopyDisplay = document.getElementById("hCopy__display");
 
 
-            function setChroma(chroma) {
-                c = chroma;
-                cSlider.value = c;
-                cField.value = c;
-                root.style.setProperty("--chroma", c);
-                updateClipboard();
-            }
+        function setLuminescence(luminescence) {
+            console.log(luminescence);
+            l = luminescence;
+            lSlider.value = l;
+            lField.value = l;
+            root.style.setProperty("--lumi", l + "%");
+            updateClipboard();
+        }
 
 
-            function setHue(hue) {
-                h = hue;
-                hSlider.value = h;
-                hField.value = h;
-                root.style.setProperty("--hue", h + "deg");
-                updateClipboard();
-            }
+        function setChroma(chroma) {
+            c = chroma;
+            cSlider.value = c;
+            cField.value = c;
+            root.style.setProperty("--chroma", c);
+            updateClipboard();
+        }
 
 
-            function updateClipboard() {
-                lCopy.dataset.copy = l + "%";
-                cCopy.dataset.copy = c;
-                hCopy.dataset.copy = h + "deg";
-                lchCopy.dataset.copy = `oklch(${l}%, ${c}, ${h}deg)`;
-
-                lCopyDisplay.innerText = l + "%";
-                cCopyDisplay.innerText = c;
-                hCopyDisplay.innerText = h + "deg";
-                lchCopyDisplay.innerText = `oklch(${l}%, ${c}, ${h}deg)`;
-            }
+        function setHue(hue) {
+            h = hue;
+            hSlider.value = h;
+            hField.value = h;
+            root.style.setProperty("--hue", h + "deg");
+            updateClipboard();
+        }
 
 
-            function copyTextFromBtn(btn, event) {
-                navigator.clipboard.writeText(btn.dataset.copy);
-            }
+        function updateClipboard() {
+            lCopy.dataset.copy = l + "%";
+            cCopy.dataset.copy = c;
+            hCopy.dataset.copy = h + "deg";
+            lchCopy.dataset.copy = `oklch(${l}%, ${c}, ${h}deg)`;
 
-            updateClipboard()
+            lCopyDisplay.innerText = l + "%";
+            cCopyDisplay.innerText = c;
+            hCopyDisplay.innerText = h + "deg";
+            lchCopyDisplay.innerText = `oklch(${l}%, ${c}, ${h}deg)`;
+        }
 
-        </script>
+
+        function copyTextFromBtn(btn, event) {
+            navigator.clipboard.writeText(btn.dataset.copy);
+        }
+
+        updateClipboard()
+
+    </script>
 </body>
 
 </html>
