@@ -21,6 +21,12 @@
             --fg: oklch(90%, 0.01, var(--hue));
             --bg: oklch(15%, 0.01, var(--hue));
 
+            --monochrome-1: oklch(20%, 0.25, var(--hue));
+            --monochrome-2: oklch(35%, 0.25, var(--hue));
+            --monochrome-3: oklch(50%, 0.25, var(--hue));
+            --monochrome-4: oklch(65%, 0.25, var(--hue));
+            --monochrome-5: oklch(80%, 0.25, var(--hue));
+
             font-size: min(calc(0.5rem + 0.5vw), 14px);
         }
 
@@ -144,6 +150,32 @@
         .section-clipboard button span:first-child {
             border-right: 1px solid var(--fg);
         }
+
+        /* ====== Pallets =========== */
+
+        .color-block {
+            height: 4rem;
+        }
+
+        .monochrome-1 {
+            background: var(--monochrome-1);
+        }
+
+        .monochrome-2 {
+            background: var(--monochrome-2);
+        }
+
+        .monochrome-3 {
+            background: var(--monochrome-3);
+        }
+
+        .monochrome-4 {
+            background: var(--monochrome-4);
+        }
+
+        .monochrome-5 {
+            background: var(--monochrome-5);
+        }
     </style>
 </head>
 
@@ -243,91 +275,96 @@
 
 
 
-    <section>
+    <section class="section-palette">
         <h2>Color Pallets</h2>
-    </section>
+        <div>
+            <div class="color-block monochrome-1"></div>
+            <div class="color-block monochrome-2"></div>
+            <div class="color-block monochrome-3"></div>
+            <div class="color-block monochrome-4"></div>
+            <div class="color-block monochrome-5"></div>
+        </div>
+        <script>
+            let l = 50;
+            let c = 0.19;
+            let h = 180;
 
-    <script>
-        let l = 50;
-        let c = 0.19;
-        let h = 180;
+            var root = document.querySelector(':root');
 
-        var root = document.querySelector(':root');
+            const lSlider = document.getElementById("lSlider");
+            const cSlider = document.getElementById("cSlider");
+            const hSlider = document.getElementById("hSlider");
 
-        const lSlider = document.getElementById("lSlider");
-        const cSlider = document.getElementById("cSlider");
-        const hSlider = document.getElementById("hSlider");
+            const lField = document.getElementById("lField");
+            const cField = document.getElementById("cField");
+            const hField = document.getElementById("hField");
 
-        const lField = document.getElementById("lField");
-        const cField = document.getElementById("cField");
-        const hField = document.getElementById("hField");
+            const lchCopy = document.getElementById("lchCopy");
+            const lchCopyDisplay = document.getElementById("lchCopy__display");
 
-        const lchCopy = document.getElementById("lchCopy");
-        const lchCopyDisplay = document.getElementById("lchCopy__display");
+            const lCopy = document.getElementById("lCopy");
+            const lCopyDisplay = document.getElementById("lCopy__display");
 
-        const lCopy = document.getElementById("lCopy");
-        const lCopyDisplay = document.getElementById("lCopy__display");
+            const cCopy = document.getElementById("cCopy");
+            const cCopyDisplay = document.getElementById("cCopy__display");
 
-        const cCopy = document.getElementById("cCopy");
-        const cCopyDisplay = document.getElementById("cCopy__display");
-
-        const hCopy = document.getElementById("hCopy");
-        const hCopyDisplay = document.getElementById("hCopy__display");
-
-
-        function setLuminescence(luminescence) {
-            console.log(luminescence);
-            l = luminescence;
-            lSlider.value = l;
-            lField.value = l;
-            root.style.setProperty("--lumi", l + "%");
-            updateClipboard();
-        }
+            const hCopy = document.getElementById("hCopy");
+            const hCopyDisplay = document.getElementById("hCopy__display");
 
 
-        function setChroma(chroma) {
-            c = chroma;
-            cSlider.value = c;
-            cField.value = c;
-            root.style.setProperty("--chroma", c);
-            updateClipboard();
-        }
-
-
-        function setHue(hue) {
-            h = hue;
-            hSlider.value = h;
-            hField.value = h;
-            root.style.setProperty("--hue", h + "deg");
-            updateClipboard();
-        }
-
-
-        function updateClipboard() {
-            lCopy.dataset.copy = l + "%";
-            cCopy.dataset.copy = c;
-            hCopy.dataset.copy = h + "deg";
-            lchCopy.dataset.copy = `oklch(${l}%, ${c}, ${h}deg)`;
-
-            lCopyDisplay.innerText = l + "%";
-            cCopyDisplay.innerText = c;
-            hCopyDisplay.innerText = h + "deg";
-            lchCopyDisplay.innerText = `oklch(${l}%, ${c}, ${h}deg)`;
-        }
-
-
-        function copyTextFromBtn(btn, event) {
-            navigator.clipboard.writeText(btn.dataset.copy);
-
-            // If it's a click, unfocus. If it's a keyboard action, stay focused
-            if (event.detail > 0) {
-                btn.blur();
+            function setLuminescence(luminescence) {
+                console.log(luminescence);
+                l = luminescence;
+                lSlider.value = l;
+                lField.value = l;
+                root.style.setProperty("--lumi", l + "%");
+                updateClipboard();
             }
-        }
 
-        updateClipboard()
 
-    </script>
+            function setChroma(chroma) {
+                c = chroma;
+                cSlider.value = c;
+                cField.value = c;
+                root.style.setProperty("--chroma", c);
+                updateClipboard();
+            }
+
+
+            function setHue(hue) {
+                h = hue;
+                hSlider.value = h;
+                hField.value = h;
+                root.style.setProperty("--hue", h + "deg");
+                updateClipboard();
+            }
+
+
+            function updateClipboard() {
+                lCopy.dataset.copy = l + "%";
+                cCopy.dataset.copy = c;
+                hCopy.dataset.copy = h + "deg";
+                lchCopy.dataset.copy = `oklch(${l}%, ${c}, ${h}deg)`;
+
+                lCopyDisplay.innerText = l + "%";
+                cCopyDisplay.innerText = c;
+                hCopyDisplay.innerText = h + "deg";
+                lchCopyDisplay.innerText = `oklch(${l}%, ${c}, ${h}deg)`;
+            }
+
+
+            function copyTextFromBtn(btn, event) {
+                navigator.clipboard.writeText(btn.dataset.copy);
+
+                // If it's a click, unfocus. If it's a keyboard action, stay focused
+                if (event.detail > 0) {
+                    btn.blur();
+                }
+            }
+
+            updateClipboard()
+
+        </script>
 </body>
 
 </html>
