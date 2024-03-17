@@ -27,7 +27,7 @@
 
         /* ===== Global styles ===== */
         :root {
-            padding: 2rem;
+            padding: 1rem;
             color: var(--fg);
             background-color: var(--bg);
             font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -38,13 +38,12 @@
         }
 
         section {
-            margin: 1.5rem 0;
-            margin-bottom: 3rem;
+            margin-block-end: 2rem;
         }
 
         h2 {
+            margin-block-start: 0px;
             font-size: 1.5rem;
-            font-style: italic;
         }
 
         *:focus {
@@ -114,6 +113,10 @@
 
 
         /* ===== Clipboard ===== */
+        .clipboard-section {
+            margin-top: 2rem;
+            margin-block-end: 0rem;
+        }
 
         .clipboard-section label {
             display: inline;
@@ -165,6 +168,7 @@
 
         .pallet .color-block:nth-child(1) {
             background: var(--color-1);
+            border-radius: 1rem 1rem 0 0;
         }
 
         .pallet .color-block:nth-child(2) {
@@ -181,6 +185,7 @@
 
         .pallet .color-block:nth-child(5) {
             background: var(--color-5);
+            border-radius: 0 0 1rem 1rem;
         }
 
         .monochromatic {
@@ -206,12 +211,20 @@
             --color-4: oklch(from var(--color) calc(l/4 + 0.15) c calc(h - 30));
             --color-5: oklch(from var(--color) calc(l/4 + 0.00) c calc(h - 40));
         }
+
+        /* ====== Cosmetic ====== */
+
+        .card {
+            background: oklch(40% 0.01 var(--hue) / 0.25);
+            padding: 2rem;
+            border-radius: 1rem;
+        }
     </style>
 </head>
 
 <body>
 
-    <section class="color-picker-section">
+    <section class="color-picker-section card">
         <h2>OKLCH Color Picker </h2>
 
         <form>
@@ -282,7 +295,7 @@
                 </div>
             </div>
         </form>
-        <section class="clipboard-section">
+        <section class="clipboard-section ">
             <label>Copy to clipboard: </label>
             <button id="lchCopy" data-copy="" onclick="copyTextFromBtn(this)">
                 <span><i>CSS</i></span>
@@ -305,7 +318,7 @@
 
 
 
-    <section class="pallets-section">
+    <section class="pallets-section card">
         <h2>Color Pallets</h2>
         <div class="pallets-grid">
 
